@@ -1,0 +1,18 @@
+{
+  "name": "svelte-2",
+  "devDependencies": {
+    "jasmine-core": "~2.4.1",
+    "karma-jasmine": "~0.3.6",
+    "karma": "~0.13.15",
+    "karma-chrome-launcher": "~0.2.2",
+    "karma-fixture": "~0.2.5",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-json-fixtures-preprocessor": "0.0.5",
+    "karma-firefox-launcher": "~0.1.7",
+    "gulp-uglify": "~1.5.1",
+    "gulp-rename": "~1.2.2",
+    "gulp": "~3.9.0",
+    "gulp-marked": "~1.0.0",
+    "gulp-markdox": "~0.1.1"
+  }
+}

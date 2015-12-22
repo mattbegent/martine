@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Svelte Testing</title>
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <header role="banner">
+            <h1>Testing</h1>
+        </header>
+
+        <main class="main" role="main">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p>
+            <p class="js-greeting"></p>
+        </main>
+
+        <footer role="contentinfo">
+            <p><small>&copy; Copyright Information</small></p>
+        </footer>
+
+    </div>
+
+    <script src="svelte.js"></script>
+
+    <script type="text/javascript">
+
+        console.log($);
+
+        $.ready().then(function() {
+
+            $('.main').style.backgroundColor = "pink";
+
+            $.each($('.main:all'), function(item, index) {
+                item.style.fontSize = "40px";
+                console.log(index);
+            });
+
+            $.cookie.add('hello', 'hello');
+
+            $.extend($, {
+                hello: function() {
+                    alert('hello');
+                }
+            });
+            $.addClass($('.main'), 'hello');
+
+            var greetingTemplate = $.template("{{= greeting }} there {{= name || 'Becca' }}!", {
+                greeting: 'Hi'
+            });
+            $('.js-greeting').textContent = greetingTemplate;
+
+            $('.wrapper').addEventListener('click', function(e) {
+
+                $('p:all').forEach(function(p) {
+                    p.style.backgroundColor = 'red';
+                });
+
+            });
+
+            $.fetch('/data.json').then(function(value) {
+                console.log(JSON.parse(value.response));
+                $('p:last-child').textContent = JSON.parse(value.response).name;
+            }).catch(function(error) {
+                console.log(error);
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
