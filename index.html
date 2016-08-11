@@ -17,6 +17,7 @@
         <main class="main" role="main">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p>
             <p class="js-greeting"></p>
+            <P class="js-countries"></p>
         </main>
 
         <footer role="contentinfo">
@@ -27,59 +28,69 @@
 
     <script src="svelte.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.2.2/es6-promise.min.js"></script>
+
     <script type="text/javascript">
 
         console.log($);
 
-        $.ready().then(function() {
+        console.log('ready');
 
-            $('.main').style.backgroundColor = "orange";
+        $('.main').style.backgroundColor = "orange";
 
-            $.each($('.main:all'), function(item, index) {
-                item.style.fontSize = "40px";
-                console.log(index);
+        console.log($(document));
+
+        $.each($('.main:all'), function(item, index) {
+            item.style.fontSize = "40px";
+            console.log(index);
+        });
+
+        $.cookie.add('hello', 'hello');
+
+        $.extend($, {
+            hello: function() {
+                console.log('Hello');
+            }
+        });
+
+        $.hello();
+
+        $('.main').classList.add('justaclass');
+
+        var greetingTemplate = $.template("{{= greeting }} there {{= name || 'Bob' }}!", {
+            greeting: 'Hi'
+        });
+
+        $('.js-greeting').textContent = greetingTemplate;
+
+        $('.wrapper').addEventListener('click', function(e) {
+
+            $('p:all').forEach(function(p) {
+                p.style.backgroundColor = 'red';
             });
-
-            $.cookie.add('hello', 'hello');
-
-            $.extend($, {
-                hello: function() {
-                    console.log('Hello');
-                }
-            });
-
-            $.hello();
-
-            $('.main').classList.add('justaclass');
-
-            var greetingTemplate = $.template("{{= greeting }} there {{= name || 'Becca' }}!", {
-                greeting: 'Hi'
-            });
-
-            $('.js-greeting').textContent = greetingTemplate;
-
-            $('.wrapper').addEventListener('click', function(e) {
-
-                $('p:all').forEach(function(p) {
-                    p.style.backgroundColor = 'red';
-                });
-
-            });
-
-            $.fetch('/data.json').then(function(value) {
-                console.log(JSON.parse(value.response));
-                $('p:last-child').textContent = JSON.parse(value.response).name;
-            }).catch(function(error) {
-                console.log(error);
-            });
-
-            var debounced = $.debounce(function() {
-              console.log('Debounced!');
-            });
-
-            window.addEventListener('resize', debounced);
 
         });
+
+        fetch('https://restcountries.eu/rest/v1/all')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(json) {
+            var countries = [];
+            $.each(json, function(value) {
+              countries.push(value.name);
+            });
+            $('.js-countries').textContent = countries;
+        }).catch(function(error) {
+            console.log(error);
+        });
+
+        var debounced = $.debounce(function() {
+          console.log('Debounced!');
+        });
+
+        window.addEventListener('resize', debounced);
 
     </script>
 
