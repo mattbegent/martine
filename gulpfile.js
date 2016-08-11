@@ -32,4 +32,4 @@ gulp.task('watch', function() {
     gulp.watch(["docs.md"], ['docs']);
 });
 
-gulp.task('default', ['compress', 'test', 'docs']);
+gulp.task('default', ['compress']);

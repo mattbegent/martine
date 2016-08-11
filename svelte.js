@@ -1,5 +1,5 @@
 (function (window, document) {
-    "use strict"; 
+    "use strict";
 
     function extend (target, source) {
         target = target || {};
@@ -82,17 +82,12 @@
 
             });
         },
-        template: function (value, data) { // https://gist.github.com/Fedia/20d41d8533e0903f0123
-            // for (var i in data) {
-            //     value = value.replace(new RegExp('{{' + i + '}}', 'g'), data[i]);
-            // }
-            // return value;
-
+        template: function (value, data) { // Credit: https://gist.github.com/Fedia/20d41d8533e0903f0123
             var render;
             try {
-                render = new Function(  // compile template as a function
-                    "v,o",          // data object 
-                    "with(v){o=" +          // this variable will aggregate the output
+                render = new Function( // compile template as a function
+                    "v,o", // data object
+                    "with(v){o=" + // this variable will aggregate the output
                     JSON.stringify(value)  // converting template to JavaScript with JSON
                     .replace(/{{=(.+?)}}/g, '"+($1)+"')   // allow to print data: {{= name || 'No name' }}
                     .replace(/{{(.+?)}}/g, '";$1;o+="') /* For logic */ + ";}return o;" // return the evaluated template
@@ -100,7 +95,6 @@
             } catch (e) {
                 throw e;
             }
-
             return data ? render(data) : render;
         },
         getParameter: function(name) {
@@ -111,6 +105,7 @@
         },
         debounce: function(fn, delay) {
             var timer = null;
+            delay = delay || 300;
             return function () {
                 var context = this;
                 var args = arguments;
@@ -132,7 +127,7 @@
                     var date = new Date();
                     date.setTime(date.getTime()+(days*24*60*60*1000));
                     expires = '; expires='+date.toGMTString();
-                } 
+                }
                 document.cookie = name+'='+value+expires+'; path=/';
             },
             read: function(name) {
@@ -148,21 +143,9 @@
                 height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
             };
         }
-        addClass: function(element, value) {
-            element.classList.add(value);
-        },
-        removeClass: function(element, value) {
-            element.classList.remove(value);
-        },
-        toggleClass: function(element, value) {
-            element.classList.toggle(value);
-        },
-        hasClass: function(element, value) {
-            return element.classList.contains(value);
-        }
     });
 
-    window.svelte = Svelte; 
+    window.svelte = Svelte;
     if(!window.$) {
         window.$ = Svelte;
     }

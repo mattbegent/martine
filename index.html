@@ -33,7 +33,7 @@
 
         $.ready().then(function() {
 
-            $('.main').style.backgroundColor = "pink";
+            $('.main').style.backgroundColor = "orange";
 
             $.each($('.main:all'), function(item, index) {
                 item.style.fontSize = "40px";
@@ -44,14 +44,18 @@
 
             $.extend($, {
                 hello: function() {
-                    alert('hello');
+                    console.log('Hello');
                 }
             });
-            $.addClass($('.main'), 'hello');
+
+            $.hello();
+
+            $('.main').classList.add('justaclass');
 
             var greetingTemplate = $.template("{{= greeting }} there {{= name || 'Becca' }}!", {
                 greeting: 'Hi'
             });
+
             $('.js-greeting').textContent = greetingTemplate;
 
             $('.wrapper').addEventListener('click', function(e) {
@@ -68,6 +72,12 @@
             }).catch(function(error) {
                 console.log(error);
             });
+
+            var debounced = $.debounce(function() {
+              console.log('Debounced!');
+            });
+
+            window.addEventListener('resize', debounced);
 
         });
 
