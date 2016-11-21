@@ -1,0 +1,19 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "watch": true,
+        "target": "es5",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "module": "umd",
+        "experimentalDecorators": true
+    },
+    "include": [
+        "svelte.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -3,13 +3,18 @@ var gulp  = require('gulp');
 var uglify = require('gulp-uglify');
 var rename = require("gulp-rename");
 var Server = require('karma').Server;
-var marked = require('gulp-marked');
-var markdox = require("gulp-markdox");
+var ts = require('gulp-typescript');
+var tslint = require("gulp-tslint");
+var typedoc = require("gulp-typedoc");
 
-gulp.task('compress', function() {
-  return gulp.src('svelte.js')
-    .pipe(uglify())
-    .pipe(rename({ suffix: '.min' }))
+gulp.task('scripts', function() {
+
+  var tsProject = ts.createProject('tsconfig.json');
+  var tsResult = tsProject.src()
+        .pipe(tsProject());
+  return tsResult
+    //.pipe(uglify())
+    //.pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('.'))
 });
 
@@ -22,14 +27,20 @@ gulp.task('test', function() {
 
 
 gulp.task("docs", function(){
-  gulp.src("svelte.js")
-    .pipe(markdox())
-    .pipe(gulp.dest("./doc"));
+    return gulp
+        .src(["svelte.ts"])
+        .pipe(typedoc({
+            module: "amd",
+            target: "es5",
+            out: "docs/",
+            name: "svelte",
+            theme: 'minimal'
+        }));
 });
 
 gulp.task('watch', function() {
-    gulp.watch(["svelte.js"], ['compress', 'test']);
-    gulp.watch(["docs.md"], ['docs']);
+    gulp.watch(["svelte.js"], ['scripts']);
 });
 
-gulp.task('default', ['compress']);
+gulp.task('default', ['scripts']);
+gulp.task('init:test', ['test']);
