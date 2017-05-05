@@ -1,12 +1,14 @@
 (function (factory) {
-    if (typeof module === 'object' && typeof module.exports === 'object') {
-        var v = factory(require, exports); if (v !== undefined) module.exports = v;
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
     }
-    else if (typeof define === 'function' && define.amd) {
+    else if (typeof define === "function" && define.amd) {
         define(["require", "exports"], factory);
     }
 })(function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Svelte = (function () {
         function Svelte() {
         }
@@ -198,7 +200,7 @@
             descriptor.value = function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+                    args[_i] = arguments[_i];
                 }
                 Svelte.log("--- Svelte logger ---");
                 Svelte.log("Method: " + propertyKey);
@@ -211,6 +213,5 @@
         };
         return Svelte;
     }());
-    Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Svelte;
 });
