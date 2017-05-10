@@ -1,8 +1,8 @@
-var _ = require('../Svelte').default;
+var _ = require('../martine').default;
 var expect = require('chai').expect;
 var jsdom = require('jsdom');
 
-describe('Svelte', () => {
+describe('martine', () => {
 
     describe('#core', () => {
 

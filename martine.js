@@ -9,10 +9,10 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var Svelte = (function () {
-        function Svelte() {
+    var Martine = (function () {
+        function Martine() {
         }
-        Svelte.addCookie = function (name, value, days) {
+        Martine.addCookie = function (name, value, days) {
             var expires = '';
             if (days) {
                 var date = new Date();
@@ -21,13 +21,14 @@
             }
             document.cookie = name + '=' + value + expires + '; path=/';
         };
-        Svelte.readCookie = function (name) {
-            return (document.cookie.match('(^|; )' + name + '=([^;]*)') || 0)[2];
+        Martine.readCookie = function (name) {
+            var cookies = document.cookie;
+            return (cookies.match('(^|; )' + name + '=([^;]*)') || 0)[2];
         };
-        Svelte.removeCookie = function (name) {
+        Martine.removeCookie = function (name) {
             this.addCookie(name, "", -1);
         };
-        Svelte.debounce = function (fn, delay) {
+        Martine.debounce = function (fn, delay) {
             var timer = null;
             delay = delay || 300;
             return function () {
@@ -39,18 +40,18 @@
                 }, delay);
             };
         };
-        Svelte.each = function (value, cb) {
+        Martine.each = function (value, cb) {
             for (var i = 0, len = value.length; i < len; i++) {
                 cb(value[i], i);
             }
         };
-        Svelte.escapeHtml = function (unsafe) {
+        Martine.escapeHtml = function (unsafe) {
             return unsafe
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
         };
-        Svelte.extend = function (target, source) {
+        Martine.extend = function (target, source) {
             target = target || {};
             for (var prop in source) {
                 if (typeof source[prop] === 'object') {
@@ -62,7 +63,7 @@
             }
             return target;
         };
-        Svelte.getParameter = function (name, locationSearch) {
+        Martine.getParameter = function (name, locationSearch) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             if (!locationSearch) {
                 locationSearch = location.search;
@@ -71,12 +72,12 @@
             var results = regex.exec(locationSearch);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         };
-        Svelte.log = function (message) {
+        Martine.log = function (message) {
             if (window.console) {
                 console.log(message);
             }
         };
-        Svelte.once = function (fn, context) {
+        Martine.once = function (fn, context) {
             var result;
             return function () {
                 if (fn) {
@@ -86,21 +87,21 @@
                 return result;
             };
         };
-        Svelte.random = function (min, max) {
+        Martine.random = function (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         };
-        Svelte.sample = function (arr) {
+        Martine.sample = function (arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         };
-        Svelte.trigger = function (el, eventName) {
+        Martine.trigger = function (el, eventName) {
             var event = document.createEvent('HTMLEvents');
             event.initEvent(eventName, true, false);
             el.dispatchEvent(event);
         };
-        Svelte.query = function (expr, container) {
+        Martine.query = function (expr, container) {
             return (container || document).querySelector(expr);
         };
-        Svelte.queryAll = function (expr, container) {
+        Martine.queryAll = function (expr, container) {
             var nodeArray = [];
             var currentQuery = (container || document).querySelectorAll(expr);
             this.each(currentQuery, function (value) {
@@ -108,13 +109,13 @@
             });
             return nodeArray;
         };
-        Svelte.viewport = function () {
+        Martine.viewport = function () {
             return {
                 width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
                 height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
             };
         };
-        Svelte.ajax = function (options) {
+        Martine.ajax = function (options) {
             return new Promise(function (resolve, reject) {
                 var httpRequest = new XMLHttpRequest();
                 options.url = options.url;
@@ -122,7 +123,7 @@
                 options.type = options.type ? options.type : 'GET';
                 options.cache = options.cache !== false;
                 options.headers = options.headers ? options.headers : [];
-                Svelte.log(options);
+                Martine.log(options);
                 var pageUrl = options.url;
                 if (!options.cache) {
                     pageUrl = options.url + ((/\?/).test(options.url) ? "&" : "?") + new Date().getTime();
@@ -131,7 +132,7 @@
                 if (options.type === 'POST') {
                     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
                 }
-                Svelte.each(options.headers, function (item) {
+                Martine.each(options.headers, function (item) {
                     httpRequest.setRequestHeader(item.header, item.value);
                 });
                 httpRequest.onreadystatechange = function () {
@@ -152,10 +153,10 @@
                 httpRequest.send(options.data);
             });
         };
-        Svelte.isHidden = function (el) {
+        Martine.isHidden = function (el) {
             return (el.offsetParent === null);
         };
-        Svelte.inViewport = function (element, thresholdOption) {
+        Martine.inViewport = function (element, thresholdOption) {
             if (!thresholdOption) {
                 thresholdOption = 0;
             }
@@ -175,10 +176,10 @@
                 intersection.b >= (0 + threshold.y) &&
                 intersection.l >= (0 + threshold.x);
         };
-        Svelte.getEventTarget = function (e) {
+        Martine.getEventTarget = function (e) {
             return e.target || e.srcElement;
         };
-        Svelte.poll = function (fn, timeout, interval) {
+        Martine.poll = function (fn, timeout, interval) {
             return new Promise(function (resolve, reject) {
                 var endTime = Number(new Date()) + (timeout || 2000);
                 interval = interval || 100;
@@ -195,23 +196,23 @@
                 })();
             });
         };
-        Svelte.logger = function (target, propertyKey, descriptor) {
+        Martine.logger = function (target, propertyKey, descriptor) {
             var originalMethod = descriptor.value;
             descriptor.value = function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                Svelte.log("--- Svelte logger ---");
-                Svelte.log("Method: " + propertyKey);
-                Svelte.log("Arguments: " + JSON.stringify(args));
+                Martine.log("--- Martine logger ---");
+                Martine.log("Method: " + propertyKey);
+                Martine.log("Arguments: " + JSON.stringify(args));
                 var result = originalMethod.apply(this, args);
-                Svelte.log("Returns: " + result);
+                Martine.log("Returns: " + result);
                 return result;
             };
             return descriptor;
         };
-        return Svelte;
+        return Martine;
     }());
-    exports.default = Svelte;
+    exports.default = Martine;
 });

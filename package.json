@@ -1,9 +1,10 @@
 {
-  "name": "svelte-2",
+  "name": "martine",
   "version": "1.0.0",
-  "main": "svelte.js",
+  "main": "martine.js",
   "license": "MIT",
   "devDependencies": {
+    "@types/jsdom": "^2.0.29",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "jasmine-core": "~2.5.2",
@@ -19,10 +20,7 @@
   "scripts": {
     "start": "tsc",
     "test": "mocha --reporter spec",
-    "lint": "tslint -c tslint.json svelte.ts",
-    "docs": "typedoc --out docs/ svelte.ts"
-  },
-  "dependencies": {
-    "@types/jsdom": "^2.0.29"
+    "lint": "tslint -c tslint.json martine.ts",
+    "docs": "typedoc --out docs/ martine.ts"
   }
 }

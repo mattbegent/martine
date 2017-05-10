@@ -1,8 +1,3 @@
-
-///<amd-module name='Svelte'/>
-
-declare const Promise: any;
-
 /** Ajax options */
 interface IAjaxOptions {
     url: string;
@@ -12,16 +7,18 @@ interface IAjaxOptions {
     headers?: any[];
 }
 
+declare const Promise: any;
+
 /** A set of utility functions */
-export default class Svelte {
+export default class Martine {
 
     /**
      * Adds a cookie
      * @param {String} selector Find a new selector within a parent selector
      * @example
-     * _.addCookie('Mr Cookie', 1, 365)
+     * _.addCookie('Mr Cookie', '1', 365)
      */
-    public static addCookie(name: string, value, days?: number) {
+    public static addCookie(name: string, value: any, days?: number) {
         let expires = '';
         if (days) {
             const date = new Date();
@@ -39,7 +36,8 @@ export default class Svelte {
      * _.readCookie('Mr Cookie')
      */
     public static readCookie(name: string) {
-        return (document.cookie.match('(^|; )' + name + '=([^;]*)') || 0)[2];
+        const cookies: any = document.cookie;
+        return (cookies.match('(^|; )' + name + '=([^;]*)') || 0)[2];
     }
 
     /**
@@ -59,8 +57,10 @@ export default class Svelte {
      * @example
      * _.debounce(function() { console.log('Yo'); }, 300)
      */
-    public static debounce(fn: Function, delay: number) {
-        let timer = null;
+    /* tslint:disable */
+    public static debounce(fn: (Function), delay: number) {
+    /* tslint:enable */
+        let timer: any = null;
         delay = delay || 300;
         return function() {
             const context = this;
@@ -78,7 +78,9 @@ export default class Svelte {
      * @example
      * _.each([1,2,3], function(item) { console.log(item); })
      */
-    public static each(value, cb: Function) {
+    /* tslint:disable */
+    public static each(value: any, cb: Function) {
+    /* tslint:enable */
         for (let i = 0, len = value.length; i < len; i++) {
             cb(value[i], i);
         }
@@ -105,7 +107,7 @@ export default class Svelte {
      * @example
      * _.extend({ "hello": "hello" }, { "goodbye": "goodbye" })
      */
-    public static extend(target, source): object {
+    public static extend(target: any, source: any): object {
         target = target || {};
         for (const prop in source) {
             if (typeof source[prop] === 'object') {
@@ -124,7 +126,7 @@ export default class Svelte {
      * @example
      * _.getParameter("search")
      */
-    public static getParameter(name: string, locationSearch?): string {
+    public static getParameter(name: string, locationSearch?: string): string {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         if (!locationSearch) {
             locationSearch = location.search;
@@ -141,7 +143,9 @@ export default class Svelte {
      */
     public static log(message: any) {
         if (window.console) {
+            /* tslint:disable */
             console.log(message);
+            /* tslint:enable */
         }
     }
 
@@ -154,8 +158,10 @@ export default class Svelte {
      * onlyCallOnce(); // console logs "Once"
      * onlyCallOnce(); // null
      */
-    public static once(fn: Function, context) {
-        let result;
+    /* tslint:disable */
+    public static once(fn: Function, context: any) {
+    /* tslint:enable */
+        let result: any;
         return function() {
             if (fn) {
                 result = fn.apply(context || this, arguments);
@@ -184,7 +190,7 @@ export default class Svelte {
      * @example
      * _.sample(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
      */
-    public static sample(arr): number {
+    public static sample(arr: any[]): number {
         return arr[Math.floor(Math.random() * arr.length)];
     }
 
@@ -209,7 +215,7 @@ export default class Svelte {
      * @example
      * _.query('.cool')
      */
-    public static query(expr: string, container?): HTMLElement {
+    public static query(expr: string, container?: any): HTMLElement {
         return (container || document).querySelector(expr);
     }
 
@@ -221,10 +227,10 @@ export default class Svelte {
      * @example
      * _.query('.cool')
      */
-    public static queryAll(expr: string, container?): any[] {
-        const nodeArray = [];
+    public static queryAll(expr: string, container?: any): HTMLElement[] {
+        const nodeArray: any[] = [];
         const currentQuery = (container || document).querySelectorAll(expr);
-        this.each(currentQuery, function(value) {
+        this.each(currentQuery, function(value: any) {
             nodeArray.push(value);
         });
         return nodeArray;
@@ -252,7 +258,7 @@ export default class Svelte {
      */
     public static ajax(options: IAjaxOptions) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve: any, reject: any) {
 
             let httpRequest = new XMLHttpRequest();
             options.url = options.url;
@@ -261,7 +267,7 @@ export default class Svelte {
             options.cache = options.cache !== false;
             options.headers = options.headers ? options.headers : [];
 
-            Svelte.log(options);
+            Martine.log(options);
 
             let pageUrl = options.url;
             if (!options.cache) {
@@ -274,7 +280,7 @@ export default class Svelte {
                 httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             }
 
-            Svelte.each(options.headers, function(item) {
+            Martine.each(options.headers, function(item: any) {
                 httpRequest.setRequestHeader(item.header, item.value);
             });
 
@@ -373,9 +379,11 @@ export default class Svelte {
      *        _.log(error);
      *    });
      */
+    /* tslint:disable */
     public static poll(fn: Function, timeout?: number, interval?: number) {
+    /* tslint:enable */
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve: any, reject: any) {
 
             const endTime = Number(new Date()) + (timeout || 2000);
             interval = interval || 100;
@@ -405,11 +413,11 @@ export default class Svelte {
         const originalMethod = descriptor.value; // save a reference to the original method
 
         descriptor.value = function(...args: any[]) {
-            Svelte.log("--- Svelte logger ---");
-            Svelte.log("Method: " + propertyKey);
-            Svelte.log("Arguments: " + JSON.stringify(args)); // pre
+            Martine.log("--- Martine logger ---");
+            Martine.log("Method: " + propertyKey);
+            Martine.log("Arguments: " + JSON.stringify(args)); // pre
             const result = originalMethod.apply(this, args);    // run and store the result
-            Svelte.log("Returns: " + result);                 // post
+            Martine.log("Returns: " + result);                 // post
             return result;                                    // return the result of the original method
         };
 

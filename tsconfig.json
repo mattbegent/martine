@@ -11,7 +11,7 @@
         "experimentalDecorators": true
     },
     "include": [
-        "svelte.ts"
+        "martine.ts"
     ],
     "exclude": [
         "node_modules"
