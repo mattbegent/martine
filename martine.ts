@@ -253,8 +253,6 @@ export default class Martine {
     /**
      * Simple cross browser ajax
      * @deprecated For use only if IE9 and below support is required. Polyfill for fetch is recommended.
-     * @example
-     * _.viewport().width
      */
     public static ajax(options: IAjaxOptions) {
 
@@ -350,18 +348,6 @@ export default class Martine {
             intersection.r >= (0 + threshold.x) &&
             intersection.b >= (0 + threshold.y) &&
             intersection.l >= (0 + threshold.x);
-    }
-
-    /**
-     * For normalising event target in IE7
-     * @deprecated For use with IE7 because is doesn't have event target
-     * @param {Element} el Find a new selector within a parent selector
-     * @returns {Element} The target element
-     * @example
-     * _.getEventTarget(e)
-     */
-    public static getEventTarget(e: Event) {
-        return e.target as HTMLElement || e.srcElement;
     }
 
     /**

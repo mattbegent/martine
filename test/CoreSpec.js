@@ -251,16 +251,6 @@ describe('martine', () => {
 
     });
 
-    describe('#getEventTarget', () => {
-
-        it('should be a function', () => {
-
-            expect(_.getEventTarget).to.be.a('function');
-
-        });
-
-    });
-
     describe('#poll', () => {
 
         it('should be a function', () => {
