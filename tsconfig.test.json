@@ -6,8 +6,8 @@
         "preserveConstEnums": true,
         "sourceMap": false,
         "experimentalDecorators": true,
-        "module": "commonjs",
-        "outDir": "dist"
+        "module": "umd",
+        "outDir": "test"
     },
     "include": [
         "src/martine.ts"

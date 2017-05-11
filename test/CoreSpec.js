@@ -1,4 +1,4 @@
-const _ = require('../martine').default;
+const _ = require('./martine').default;
 const expect = require('chai').expect;
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
