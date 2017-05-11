@@ -1,6 +1,6 @@
 {
   "name": "martine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./martine",
   "types": "./martine.d.ts",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "chai-http": "^3.0.0",
     "dts-generator": "^2.1.0",
     "jasmine-core": "~2.5.2",
-    "jsdom": "^9.8.3",
+    "jsdom": "^10.1.0",
     "jsdomify": "^3.1.0",
     "mocha": "^3.1.2",
     "mocha-jsdom": "^1.1.0",
@@ -30,11 +30,12 @@
     "typescript": "^2.3.2"
   },
   "scripts": {
-    "start": "tsc",
+    "start": "tsc -w",
+    "pretest": "tsc",
     "test": "mocha --reporter spec",
     "lint": "tslint -c tslint.json martine.ts",
     "docs": "typedoc --out docs/ martine.ts",
     "gentypes": "dts-generator --project ./ --out martine.d.ts",
-    "release": "npm run test && npm run gentypes && npm run docs"
+    "release": "npm run test && npm run lint && npm run gentypes && npm run docs"
   }
 }

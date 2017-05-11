@@ -12,7 +12,8 @@
     var Martine = (function () {
         function Martine() {
         }
-        Martine.addCookie = function (name, value, days) {
+        Martine.addCookie = function (name, value, days, document) {
+            if (document === void 0) { document = window.document; }
             var expires = '';
             if (days) {
                 var date = new Date();
@@ -21,12 +22,14 @@
             }
             document.cookie = name + '=' + value + expires + '; path=/';
         };
-        Martine.readCookie = function (name) {
+        Martine.readCookie = function (name, document) {
+            if (document === void 0) { document = window.document; }
             var cookies = document.cookie;
             return (cookies.match('(^|; )' + name + '=([^;]*)') || 0)[2];
         };
-        Martine.removeCookie = function (name) {
-            this.addCookie(name, "", -1);
+        Martine.removeCookie = function (name, document) {
+            if (document === void 0) { document = window.document; }
+            this.addCookie(name, "", -1, document);
         };
         Martine.debounce = function (fn, delay) {
             var timer = null;
@@ -109,7 +112,13 @@
             });
             return nodeArray;
         };
-        Martine.viewport = function () {
+        Martine.viewport = function (window, document) {
+            if (!window) {
+                window = window;
+            }
+            if (!document) {
+                document = window.document;
+            }
             return {
                 width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
                 height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)

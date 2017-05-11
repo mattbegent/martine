@@ -1,6 +1,7 @@
-var _ = require('../martine').default;
-var expect = require('chai').expect;
-var jsdom = require('jsdom');
+const _ = require('../martine').default;
+const expect = require('chai').expect;
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 describe('martine', () => {
 
@@ -17,23 +18,24 @@ describe('martine', () => {
 
     describe('#query', () => {
 
-        it('should be a function', () => {
+        it('query should be a function', () => {
 
-            var document = jsdom.jsdom('<div>Div</div>');
             expect(_.query).to.be.a('function');
 
         });
 
         it('should return an element if in the dom', () => {
 
-            var document = jsdom.jsdom('<div>Div</div>');
-            expect(_.query('div', document)).to.be.a('object');
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+            expect(_.query('div', document)).to.be.a('HTMLDivElement');
 
         });
 
         it('should return null if not in the dom', () => {
 
-            var document = jsdom.jsdom('<div>No p</div>');
+            const dom = new JSDOM('<!DOCTYPE html><div>No p</div>');
+            const document = dom.window.document;
             expect(_.query('p', document)).to.be.a('null');
 
         });
@@ -42,23 +44,32 @@ describe('martine', () => {
 
     describe('#queryAll', () => {
 
-        it('expect queryAll to be a function', () => {
+        it('should be a function', () => {
 
-            var document = jsdom.jsdom('<div>Div</div>');
             expect(_.queryAll).to.be.a('function');
 
         });
 
-        it('expect queryAll to have a length of 1', () => {
+        it('should return a length of 0 when no elements found', () => {
 
-            var document = jsdom.jsdom('<div>Div</div>');
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+            expect(_.queryAll('.not-there', document)).to.have.length(0);
+
+        });
+
+        it('should return a length of 1 when one element found', () => {
+
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
             expect(_.queryAll('div', document)).to.have.length(1);
 
         });
 
-        it('expect queryAll to have a length of 3', () => {
+        it('should return a length of 3 when three elements found', () => {
 
-            var document = jsdom.jsdom('<div>Div</div><div>Div</div><div>Div</div>');
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div><div>Div</div><div>Div</div>');
+            const document = dom.window.document;
             expect(_.queryAll('div', document)).to.have.length(3);
 
         });
@@ -76,6 +87,12 @@ describe('martine', () => {
         it('should escape HTML', () => {
             
             expect(_.escapeHtml('<hello>hello</hello>')).to.equal('&lt;hello&gt;hello&lt;/hello&gt;');
+
+        });
+
+        it('should ignore strings with no html in them', () => {
+            
+            expect(_.escapeHtml('hello')).to.equal('hello');
 
         });
 
@@ -130,14 +147,25 @@ describe('martine', () => {
 
         });
 
-    });
+        it('should add a cookie to the document', () => {
 
-        
-    describe('#removeCookie', () => {
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+            
+            _.addCookie('bob', 'yes', 1, document);
 
-        it('should be a function', () => {
+            expect(_.readCookie('bob', document)).to.equal('yes');
 
-            expect(_.removeCookie).to.be.a('function');
+        });
+
+        it('should add a cookie to the document and have the correct value', () => {
+
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+            
+            _.addCookie('bob', 'yes', 1, document);
+
+            expect(_.readCookie('bob', document)).not.to.equal('no');
 
         });
 
@@ -152,7 +180,20 @@ describe('martine', () => {
 
         });
 
+        it('should remove cookie', () => {
+
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+            
+            _.addCookie('bob', 'yes', 1, document);
+            _.removeCookie('bob', document);
+
+            expect(_.readCookie('bob', document)).to.be.undefined;
+
+        });
+
     });
+
 
     describe('#debounce', () => {
 
@@ -226,6 +267,32 @@ describe('martine', () => {
         it('should be a function', () => {
 
             expect(_.viewport).to.be.a('function');
+
+        });
+
+        it('should return an object', () => {
+
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+
+            expect(_.viewport(dom.window, document)).to.be.a('object');
+
+        });
+
+        it('should return width as a number', () => {
+
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+
+            expect(_.viewport(dom.window, document).width).to.be.a('number');
+
+        });
+
+        it('should return height as a number', () => {
+
+            const dom = new JSDOM('<!DOCTYPE html><div>Div</div>');
+            const document = dom.window.document;
+            expect(_.viewport(dom.window, document).height).to.be.a('number');
 
         });
 

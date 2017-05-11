@@ -5,11 +5,14 @@ export default class Martine {
 
     /**
      * Adds a cookie
-     * @param {String} selector Find a new selector within a parent selector
+     * @param {string} name The name of the cookie 
+     * @param {string} value The value of the cookie
+     * @param {days} value The number of days to set the cookie for
+     * @param {Document} document The document
      * @example
      * _.addCookie('Mr Cookie', '1', 365)
      */
-    public static addCookie(name: string, value: any, days?: number) {
+    public static addCookie(name: string, value: string, days?: number, document: Document = window.document) {
         let expires = '';
         if (days) {
             const date = new Date();
@@ -21,35 +24,37 @@ export default class Martine {
 
     /**
      * Reads the value of a cookie
-     * @param {String} name The name of the cookie to read
+     * @param {string} name The name of the cookie to read
+     * @param {Document} document The document
      * @returns Cookie value
      * @example 
      * _.readCookie('Mr Cookie')
      */
-    public static readCookie(name: string) {
+    public static readCookie(name: string, document: Document = window.document) {
         const cookies: any = document.cookie;
         return (cookies.match('(^|; )' + name + '=([^;]*)') || 0)[2];
     }
 
     /**
      * Removes a cookie
-     * @param {String} name The name of the cookie to remove
+     * @param {string} name The name of the cookie to remove
+     * @param {Document} document The document
      * @example
      * _.removeCookie('Mr Cookie')
      */
-    public static removeCookie(name: string) {
-        this.addCookie(name, "", -1);
+    public static removeCookie(name: string, document: Document = window.document) {
+        this.addCookie(name, "", -1, document);
     }
 
     /**
      * Debounces a function
      * @param {Function} fn The function to debounce
-     * @param {Number} delay The amount of time to delay the function
+     * @param {number} delay The amount of time to delay the function
      * @example
      * _.debounce(function() { console.log('Yo'); }, 300)
      */
     /* tslint:disable */
-    public static debounce(fn: (Function), delay: number) {
+    public static debounce(fn: Function, delay: number) {
     /* tslint:enable */
         let timer: any = null;
         delay = delay || 300;
@@ -79,7 +84,7 @@ export default class Martine {
 
     /**
      * Escape HTML
-     * @param {String} unsafe Code to escape
+     * @param {string} unsafe Code to escape
      * @example
      * _.escapeHtml('<hello>Escape me</hello>')
      */
@@ -112,8 +117,8 @@ export default class Martine {
 
     /**
      * Gets a querystring value
-     * @param {String} name The parameter to read
-     * @returns {String} The value of the parameter
+     * @param {string} name The parameter to read
+     * @returns {string} The value of the parameter
      * @example
      * _.getParameter("search")
      */
@@ -164,9 +169,9 @@ export default class Martine {
 
     /**
      * Get a random number in a range
-     * @param {Number} min The minimum value in the range
-     * @param {Number} max The maximum value in the range
-     * @returns {Number} A number between the minimum and maximum
+     * @param {number} min The minimum value in the range
+     * @param {number} max The maximum value in the range
+     * @returns {number} A number between the minimum and maximum
      * @example
      * _.random(5, 20)
      */
@@ -177,7 +182,7 @@ export default class Martine {
     /**
      * Get a random value from an array
      * @param {Array} arr The array which to sample from
-     * @returns {Number} A random item from the array
+     * @returns {number} A random item from the array
      * @example
      * _.sample(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
      */
@@ -188,7 +193,7 @@ export default class Martine {
     /**
      * Trigger a native event
      * @param {Element} el The element to trigger an event on
-     * @param {String} eventName The name of the event to trigger
+     * @param {string} eventName The name of the event to trigger
      * @example
      * _.trigger(_.query('.button'),'click')
      */
@@ -200,9 +205,9 @@ export default class Martine {
 
     /**
      * Query HTML Elements
-     * @param {String} expr
+     * @param {number} expr
      * @param {Element} container
-     * @returns Element
+     * @returns HTMLElement
      * @example
      * _.query('.cool')
      */
@@ -212,7 +217,7 @@ export default class Martine {
 
     /**
      * Query all HTML Elements
-     * @param {String} expr
+     * @param {string} expr
      * @param {Element} container
      * @returns {Array} An array of the matching elements
      * @example
@@ -234,7 +239,15 @@ export default class Martine {
      * _.viewport().width
      * _.viewport().height
      */
-    public static viewport() {
+    public static viewport(window?: Window, document?: Document) {
+        if(!window) {
+            window = window;
+        }
+        
+        if(!document) {
+            document = window.document;
+        }
+        
         return {
             width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
             height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
@@ -296,7 +309,7 @@ export default class Martine {
 
     /**
      * Checks if an element is hidden or not
-     * @param {Element} el The element to check
+     * @param {HTMLElement} el The element to check
      * @example
      * _.isHidden(_.query('.Element'))
      */
@@ -308,7 +321,7 @@ export default class Martine {
 
     /**
      * Checks if an element is in viewport
-     * @param {Element} element The element to check
+     * @param {HTMLElement} element The element to check
      * @param {number} thresholdOption The treshold to check against
      * @example
      * _.inViewport(_.query('.Element'))

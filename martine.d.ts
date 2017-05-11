@@ -1,9 +1,9 @@
 declare module 'martine' {
 	export default class Martine {
-	    static addCookie(name: string, value: any, days?: number): void;
-	    static readCookie(name: string): any;
-	    static removeCookie(name: string): void;
-	    static debounce(fn: (Function), delay: number): () => void;
+	    static addCookie(name: string, value: string, days?: number, document?: Document): void;
+	    static readCookie(name: string, document?: Document): any;
+	    static removeCookie(name: string, document?: Document): void;
+	    static debounce(fn: Function, delay: number): () => void;
 	    static each(value: any, cb: Function): void;
 	    static escapeHtml(unsafe: string): string;
 	    static extend(target: any, source: any): object;
@@ -15,7 +15,7 @@ declare module 'martine' {
 	    static trigger(el: Element, eventName: string): void;
 	    static query(expr: string, container?: any): HTMLElement;
 	    static queryAll(expr: string, container?: any): HTMLElement[];
-	    static viewport(): {
+	    static viewport(window?: Window, document?: Document): {
 	        width: number;
 	        height: number;
 	    };
