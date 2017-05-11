@@ -1,12 +1,3 @@
-/** Ajax options */
-interface IAjaxOptions {
-    url: string;
-    data?: object;
-    type?: string;
-    cache?: boolean;
-    headers?: any[];
-}
-
 declare const Promise: any;
 
 /** A set of utility functions */
@@ -254,31 +245,29 @@ export default class Martine {
      * Simple cross browser ajax
      * @deprecated For use only if IE9 and below support is required. Polyfill for fetch is recommended.
      */
-    public static ajax(options: IAjaxOptions) {
+    public static ajax(url: string, data?: object, type?: string, cache?: boolean, headers?: any[]) {
 
         return new Promise(function(resolve: any, reject: any) {
 
             let httpRequest = new XMLHttpRequest();
-            options.url = options.url;
-            options.data = options.data ? options.data : null;
-            options.type = options.type ? options.type : 'GET';
-            options.cache = options.cache !== false;
-            options.headers = options.headers ? options.headers : [];
+            url = url;
+            data = data ? data : null;
+            type = type ? type : 'GET';
+            cache = cache !== false;
+            headers = headers ? headers : [];
 
-            Martine.log(options);
-
-            let pageUrl = options.url;
-            if (!options.cache) {
-                pageUrl = options.url + ((/\?/).test(options.url) ? "&" : "?") + new Date().getTime();
+            let pageUrl = url;
+            if (!cache) {
+                pageUrl = url + ((/\?/).test(url) ? "&" : "?") + new Date().getTime();
             }
 
-            httpRequest.open(options.type, pageUrl);
+            httpRequest.open(type, pageUrl);
 
-            if (options.type === 'POST') {
+            if (type === 'POST') {
                 httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
             }
 
-            Martine.each(options.headers, function(item: any) {
+            Martine.each(headers, function(item: any) {
                 httpRequest.setRequestHeader(item.header, item.value);
             });
 
@@ -299,7 +288,7 @@ export default class Martine {
                 reject(Error("Network Error"));
             };
 
-            httpRequest.send(options.data);
+            httpRequest.send(data);
 
         });
 

@@ -1,12 +1,24 @@
 {
   "name": "martine",
   "version": "1.0.0",
-  "main": "martine.js",
+  "main": "./martine",
+  "types": "./martine.d.ts",
   "license": "MIT",
+  "author": "Matt Begent",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mattbegent/martine.git"
+  },
+  "keywords": [
+    "typescript",
+    "utility",
+    "martine"
+  ],
   "devDependencies": {
     "@types/jsdom": "^2.0.29",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
+    "dts-generator": "^2.1.0",
     "jasmine-core": "~2.5.2",
     "jsdom": "^9.8.3",
     "jsdomify": "^3.1.0",
@@ -21,6 +33,8 @@
     "start": "tsc",
     "test": "mocha --reporter spec",
     "lint": "tslint -c tslint.json martine.ts",
-    "docs": "typedoc --out docs/ martine.ts"
+    "docs": "typedoc --out docs/ martine.ts",
+    "gentypes": "dts-generator --project ./ --out martine.d.ts",
+    "release": "npm run test && npm run gentypes && npm run docs"
   }
 }

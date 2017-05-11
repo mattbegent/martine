@@ -115,24 +115,23 @@
                 height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
             };
         };
-        Martine.ajax = function (options) {
+        Martine.ajax = function (url, data, type, cache, headers) {
             return new Promise(function (resolve, reject) {
                 var httpRequest = new XMLHttpRequest();
-                options.url = options.url;
-                options.data = options.data ? options.data : null;
-                options.type = options.type ? options.type : 'GET';
-                options.cache = options.cache !== false;
-                options.headers = options.headers ? options.headers : [];
-                Martine.log(options);
-                var pageUrl = options.url;
-                if (!options.cache) {
-                    pageUrl = options.url + ((/\?/).test(options.url) ? "&" : "?") + new Date().getTime();
+                url = url;
+                data = data ? data : null;
+                type = type ? type : 'GET';
+                cache = cache !== false;
+                headers = headers ? headers : [];
+                var pageUrl = url;
+                if (!cache) {
+                    pageUrl = url + ((/\?/).test(url) ? "&" : "?") + new Date().getTime();
                 }
-                httpRequest.open(options.type, pageUrl);
-                if (options.type === 'POST') {
+                httpRequest.open(type, pageUrl);
+                if (type === 'POST') {
                     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
                 }
-                Martine.each(options.headers, function (item) {
+                Martine.each(headers, function (item) {
                     httpRequest.setRequestHeader(item.header, item.value);
                 });
                 httpRequest.onreadystatechange = function () {
@@ -150,7 +149,7 @@
                 httpRequest.onerror = function () {
                     reject(Error("Network Error"));
                 };
-                httpRequest.send(options.data);
+                httpRequest.send(data);
             });
         };
         Martine.isHidden = function (el) {
@@ -175,9 +174,6 @@
                 intersection.r >= (0 + threshold.x) &&
                 intersection.b >= (0 + threshold.y) &&
                 intersection.l >= (0 + threshold.x);
-        };
-        Martine.getEventTarget = function (e) {
-            return e.target || e.srcElement;
         };
         Martine.poll = function (fn, timeout, interval) {
             return new Promise(function (resolve, reject) {
