@@ -1,6 +1,6 @@
 {
   "name": "martine",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./dist/martine.js",
   "types": "./dist/martine.d.ts",
   "license": "MIT",
