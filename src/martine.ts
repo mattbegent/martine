@@ -258,7 +258,7 @@ export default class Martine {
      * Simple cross browser ajax
      * @deprecated For use only if IE9 and below support is required. Polyfill for fetch is recommended.
      */
-    public static ajax(url: string, data?: object, type?: string, cache?: boolean, headers?: any[]) {
+    public static ajax(url: string, data?: (string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream<Uint8Array>), type?: string, cache?: boolean, headers?: any[]) {
 
         return new Promise(function(resolve: any, reject: any) {
 
